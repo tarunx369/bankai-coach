@@ -1,0 +1,62 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+  scrollbar-width: thin;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  @apply font-body bg-paper-50 text-ink-900 dark:bg-ink-950 dark:text-paper-100 transition-colors duration-300;
+}
+
+h1, h2, h3, h4 {
+  @apply font-display;
+}
+
+@layer components {
+  .glass-card {
+    @apply bg-white/70 dark:bg-ink-800/60 backdrop-blur-glass border border-white/40 dark:border-ink-600/40 shadow-glass rounded-xl2;
+  }
+
+  .glass-card-sm {
+    @apply bg-white/70 dark:bg-ink-800/60 backdrop-blur-glass border border-white/40 dark:border-ink-600/40 shadow-glass-sm rounded-xl;
+  }
+
+  .btn-primary {
+    @apply inline-flex items-center justify-center gap-2 rounded-xl bg-gold-500 text-ink-950 font-semibold px-5 py-2.5 transition-all duration-200 hover:bg-gold-400 hover:-translate-y-0.5 active:translate-y-0 disabled:opacity-50 disabled:pointer-events-none;
+  }
+
+  .btn-secondary {
+    @apply inline-flex items-center justify-center gap-2 rounded-xl border border-ink-600/30 dark:border-paper-100/20 px-5 py-2.5 font-medium transition-all duration-200 hover:bg-ink-900/5 dark:hover:bg-paper-100/10;
+  }
+
+  .badge {
+    @apply inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-xs font-medium;
+  }
+
+  .skeleton {
+    @apply animate-pulseSoft bg-ink-700/10 dark:bg-paper-100/10 rounded-lg;
+  }
+
+  .progress-track {
+    @apply w-full h-2.5 rounded-full bg-ink-900/10 dark:bg-paper-100/10 overflow-hidden;
+  }
+
+  .progress-fill {
+    @apply h-full rounded-full bg-gradient-to-r from-gold-500 to-gold-400 transition-all duration-700 ease-out;
+  }
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(120, 130, 150, 0.35);
+  border-radius: 8px;
+}

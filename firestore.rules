@@ -1,0 +1,50 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function isOwner(uid) {
+      return request.auth != null && request.auth.uid == uid;
+    }
+
+    match /users/{uid} {
+      allow read, write: if isOwner(uid);
+    }
+
+    match /user_progress/{uid} {
+      allow read, write: if isOwner(uid);
+    }
+
+    // Docs keyed as "{uid}_{something}" for lesson/flashcard caches and bookmarks
+    match /daily_lessons/{docId} {
+      allow read, write: if request.auth != null && docId.matches(request.auth.uid + '_.*');
+    }
+    match /flashcards/{docId} {
+      allow read, write: if request.auth != null && docId.matches(request.auth.uid + '_.*');
+    }
+    match /bookmarks/{docId} {
+      allow read, write: if request.auth != null && docId.matches(request.auth.uid + '_.*');
+    }
+
+    // Docs with a uid field
+    match /notes/{docId} {
+      allow read, write: if request.auth != null &&
+        (resource == null || resource.data.uid == request.auth.uid) &&
+        (request.resource == null || request.resource.data.uid == request.auth.uid);
+    }
+    match /mock_tests/{docId} {
+      allow read, write: if request.auth != null &&
+        (resource == null || resource.data.uid == request.auth.uid) &&
+        (request.resource == null || request.resource.data.uid == request.auth.uid);
+    }
+    match /ai_chat_history/{docId} {
+      allow read, write: if request.auth != null &&
+        (resource == null || resource.data.uid == request.auth.uid) &&
+        (request.resource == null || request.resource.data.uid == request.auth.uid);
+    }
+
+    // Shared read-only reference data, cached once and reused by the single app user
+    match /current_affairs/{date} {
+      allow read, write: if request.auth != null;
+    }
+  }
+}
